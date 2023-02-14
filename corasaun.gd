@@ -1,6 +1,5 @@
 extends RigidBody2D
 
 
-func _process(delta):
-	rotation = 0
-	pass
+func _integrate_forces(state):
+	rotation_degrees = 0
