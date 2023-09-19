@@ -1,39 +1,71 @@
 extends Node2D
 
-export var elos = 10
-export var tamanho = 128
-func _ready():
-	$elos/elo.global_position = $player.global_position
-	$player/PinJoint2D.node_b = $elos/elo.get_path()
-	gerar_elos()
+export var n_joints: int = 10
+export var size = 128
 
-func _physics_process(delta):
-	for i in $elos.get_child_count():
-		var elo = $elos.get_child(i)
-		var pin = elo.get_node("Pin")
-		
+export var player_path: NodePath
+var player: Node2D
+
+export var source_path: NodePath
+var source: Node2D
+
+var joints: Array
+onready var joint: RigidBody2D = $joint
+
+
+func _ready() -> void:
+	player = get_node_or_null(player_path)
+	assert(player != null)
+	
+	source = get_node_or_null(source_path)
+	assert(source != null)
+	
+	joint.global_position = player.global_position
+	assert(player.pin != null)
+	
+	(player.pin as PinJoint2D).node_b = joint.get_path()
+	assert(player.line != null)
+	
+	generate_joints()
+	
+	joints = []
+	for child in get_children():
+		if child is RigidBody2D:
+			joints.append(child)
+
+
+func _physics_process(_delta: float) -> void:
+	
+	for i in joints.size():
+		var curr: RigidBody2D = joints[i]
+		var pin = curr.get_node("Pin")
 		var next
+		
 		if pin.node_b:
 			next = get_node(pin.node_b)
+			
 			if not next:
 				continue
-			if $player/Line2D.get_point_count() == i:
-				$player/Line2D.add_point($player.to_local(next.position))
+			
+			if player.line.get_point_count() == i:
+				player.line.add_point(player.to_local(next.position))
 			else:
-				$player/Line2D.set_point_position(i, $player.to_local(next.position))
+				player.line.set_point_position(i, player.to_local(next.position))
 
-func gerar_elos():
-	for i in elos:
-		var elo = $elos/elo.duplicate()
-		$elos.add_child(elo)
-		elo.mode = RigidBody2D.MODE_RIGID
-		var new_position = $elos/elo.position
-		new_position.y += (i+1) * -(tamanho / elos)
-		elo.position = new_position
+
+func generate_joints() -> void:
+	
+	for i in n_joints:
+		var new = joint.duplicate()
+		add_child(new)
+		new.mode = RigidBody2D.MODE_RIGID
 		
-#		if $elos.get_child(i-1):
-		elo.get_node("Pin").node_a = elo.get_path()
-		$elos.get_child(i).get_node("Pin").node_b = elo.get_path()
-		if i == elos-1:
-			$corasaun.global_position = elo.global_position
-			elo.get_node("Pin").node_b = $corasaun.get_path()
+		new.position = joint.position
+		new.position.y += (i + 1) * -(size / n_joints)
+		
+		new.get_node("Pin").node_a = new.get_path()
+		get_child(i).get_node("Pin").node_b = new.get_path()
+		
+		if i == n_joints - 1:
+			source.global_position = new.global_position
+			new.get_node("Pin").node_b = source.get_path()
