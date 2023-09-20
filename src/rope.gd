@@ -1,34 +1,75 @@
-extends Node2D
+tool
+class_name Rope
+extends Line2D
 
+const JOINT_SCN: PackedScene = preload("res://src/joint.tscn")
 export var n_joints: int = 10
 export var size = 128
 
-export var player_path: NodePath
-var player: Node2D
-
-export var source_path: NodePath
+export var source_path: NodePath setget set_source_path
 var source: Node2D
 
+export var target_path: NodePath setget set_target_path
+var target: Node2D
+var target_pin := PinJoint2D.new()
+
 var joints: Array
-onready var joint: RigidBody2D = $joint
+
+
+func set_target_path(value: NodePath) -> void:
+	target_path = value
+	update_configuration_warning()
+
+
+func set_source_path(value: NodePath) -> void:
+	source_path = value
+	update_configuration_warning()
+
+
+func _get_configuration_warning() -> String:
+	var warning := ""
+	var nl: bool
+	
+	if source_path.is_empty():
+		warning += "- Please add a source"
+		nl = true
+	
+	if target_path.is_empty():
+		warning += ("\n" if nl else "") + "- Please add a target"
+	
+	if target_path.is_empty():
+		warning += ("\n" if nl else "") + "- Please add a line"
+	
+	return warning
 
 
 func _ready() -> void:
-	player = get_node_or_null(player_path)
-	assert(player != null)
 	
+	if Engine.is_editor_hint():
+		set_physics_process(false)
+		return
+	
+	target = get_node_or_null(target_path)
 	source = get_node_or_null(source_path)
-	assert(source != null)
 	
-	joint.global_position = player.global_position
-	assert(player.pin != null)
+	if target == null or source_path == null:
+		set_physics_process(false)
+		return
 	
-	(player.pin as PinJoint2D).node_b = joint.get_path()
-	assert(player.line != null)
+	# Setup first joint
+	joints = [JOINT_SCN.instance()]
+	add_child(joints[0])
+	joints[0].global_position = target.global_position
+	
+	# Setup target pin
+	
+	yield(get_tree(), "idle_frame")
+	target.add_child(target_pin)
+	target_pin.node_a = target.get_path()
+	target_pin.node_b = joints[0].get_path()
 	
 	generate_joints()
 	
-	joints = []
 	for child in get_children():
 		if child is RigidBody2D:
 			joints.append(child)
@@ -47,20 +88,20 @@ func _physics_process(_delta: float) -> void:
 			if not next:
 				continue
 			
-			if player.line.get_point_count() == i:
-				player.line.add_point(player.to_local(next.position))
+			if get_point_count() == i:
+				add_point(target.to_global(next.position))
 			else:
-				player.line.set_point_position(i, player.to_local(next.position))
+				set_point_position(i, target.to_global(next.position))
 
 
 func generate_joints() -> void:
 	
 	for i in n_joints:
-		var new = joint.duplicate()
+		var new = joints[0].duplicate()
 		add_child(new)
 		new.mode = RigidBody2D.MODE_RIGID
 		
-		new.position = joint.position
+		new.position = joints[0].position
 		new.position.y += (i + 1) * -(size / n_joints)
 		
 		new.get_node("Pin").node_a = new.get_path()

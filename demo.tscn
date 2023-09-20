@@ -187,11 +187,10 @@ __meta__ = {
 }
 corasaun_path = NodePath("../corasaun")
 
-[node name="PinJoint2D" type="PinJoint2D" parent="player"]
-node_a = NodePath("..")
-
-[node name="Line2D" type="Line2D" parent="player"]
+[node name="Rope" type="Line2D" parent="player"]
+position = Vector2( -224, -288 )
 z_index = -1
+points = PoolVector2Array( -1, 1 )
 default_color = Color( 1, 1, 1, 1 )
 texture = ExtResource( 9 )
 texture_mode = 1
@@ -199,6 +198,12 @@ joint_mode = 2
 begin_cap_mode = 2
 end_cap_mode = 2
 antialiased = true
+script = ExtResource( 4 )
+__meta__ = {
+"_editor_description_": ""
+}
+source_path = NodePath("../../corasaun")
+target_path = NodePath("..")
 
 [node name="corasaun" type="RigidBody2D" parent="."]
 position = Vector2( 224, 160 )
@@ -222,10 +227,3 @@ shape = SubResource( 13 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Elo"]
 shape = SubResource( 23 )
-
-[node name="Joints" type="Node2D" parent="."]
-script = ExtResource( 4 )
-player_path = NodePath("../player")
-source_path = NodePath("../corasaun")
-
-[node name="joint" parent="Joints" instance=ExtResource( 3 )]
