@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/elo.png-1033986e5362af6986384f0134773cc7.stex"
+path="res://.import/elo.png-32dc8f92905722fe661ec1da2ea5fc4b.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://elo.png"
-dest_files=[ "res://.import/elo.png-1033986e5362af6986384f0134773cc7.stex" ]
+source_file="res://sprites/elo.png"
+dest_files=[ "res://.import/elo.png-32dc8f92905722fe661ec1da2ea5fc4b.stex" ]
 
 [params]
 

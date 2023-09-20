@@ -1,14 +1,14 @@
 [gd_scene load_steps=19 format=2]
 
-[ext_resource path="res://Node2D.gd" type="Script" id=1]
-[ext_resource path="res://icon.png" type="Texture" id=2]
-[ext_resource path="res://player.tscn" type="PackedScene" id=3]
-[ext_resource path="res://corasaun.gd" type="Script" id=4]
-[ext_resource path="res://src/joint.tscn" type="PackedScene" id=5]
-[ext_resource path="res://elo.png" type="Texture" id=6]
-[ext_resource path="res://esteira.tscn" type="PackedScene" id=7]
-[ext_resource path="res://sprites/esteira.png" type="Texture" id=8]
-[ext_resource path="res://sprites/paredes.png" type="Texture" id=9]
+[ext_resource path="res://player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://esteira.tscn" type="PackedScene" id=2]
+[ext_resource path="res://src/joint.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/rope.gd" type="Script" id=4]
+[ext_resource path="res://corasaun.gd" type="Script" id=5]
+[ext_resource path="res://sprites/esteira.png" type="Texture" id=6]
+[ext_resource path="res://sprites/paredes.png" type="Texture" id=7]
+[ext_resource path="res://icon.png" type="Texture" id=8]
+[ext_resource path="res://sprites/elo.png" type="Texture" id=9]
 
 [sub_resource type="ConvexPolygonShape2D" id=16]
 points = PoolVector2Array( 64, 64, 0, 64, 0, 0, 64, 0 )
@@ -35,11 +35,11 @@ shader_param/count = 2.0
 shader_param/duration = 0.2
 shader_param/width = 0.5
 shader_param/startX = 0.0
-shader_param/frames = ExtResource( 8 )
+shader_param/frames = ExtResource( 6 )
 
 [sub_resource type="TileSet" id=15]
 0/name = "icon.png 0"
-0/texture = ExtResource( 2 )
+0/texture = ExtResource( 8 )
 0/tex_offset = Vector2( 0, 0 )
 0/modulate = Color( 1, 1, 1, 1 )
 0/region = Rect2( 0, 0, 64, 64 )
@@ -60,7 +60,7 @@ shader_param/frames = ExtResource( 8 )
 } ]
 0/z_index = 0
 1/name = "esteira.png 1"
-1/texture = ExtResource( 8 )
+1/texture = ExtResource( 6 )
 1/tex_offset = Vector2( 0, 0 )
 1/material = SubResource( 18 )
 1/modulate = Color( 1, 1, 1, 1 )
@@ -90,7 +90,7 @@ points = PoolVector2Array( 0, 0, 64, 64, 0, 64 )
 
 [sub_resource type="TileSet" id=20]
 0/name = "paredes.png 0"
-0/texture = ExtResource( 9 )
+0/texture = ExtResource( 7 )
 0/tex_offset = Vector2( 0, 0 )
 0/modulate = Color( 1, 1, 1, 1 )
 0/region = Rect2( 0, 0, 128, 128 )
@@ -130,7 +130,7 @@ radius = 30.0
 [sub_resource type="CircleShape2D" id=23]
 radius = 5.0
 
-[node name="Node2D" type="Node2D"]
+[node name="Demo" type="Node2D"]
 
 [node name="tilemaps" type="Node2D" parent="."]
 z_index = -1
@@ -150,37 +150,37 @@ tile_data = PoolIntArray( -1, 0, 0, -65536, 0, 0, -65535, 0, 0, -65534, 0, 0, -6
 [node name="objetos" type="Node2D" parent="."]
 z_index = -1
 
-[node name="esteira" parent="objetos" instance=ExtResource( 7 )]
+[node name="esteira" parent="objetos" instance=ExtResource( 2 )]
 position = Vector2( 352, 288 )
 rotation = 1.57079
 
-[node name="esteira2" parent="objetos" instance=ExtResource( 7 )]
+[node name="esteira2" parent="objetos" instance=ExtResource( 2 )]
 position = Vector2( 352, 352 )
 rotation = 1.57079
 
-[node name="esteira3" parent="objetos" instance=ExtResource( 7 )]
+[node name="esteira3" parent="objetos" instance=ExtResource( 2 )]
 position = Vector2( 352, 416 )
 
-[node name="esteira4" parent="objetos" instance=ExtResource( 7 )]
+[node name="esteira4" parent="objetos" instance=ExtResource( 2 )]
 position = Vector2( 416, 416 )
 
-[node name="esteira5" parent="objetos" instance=ExtResource( 7 )]
+[node name="esteira5" parent="objetos" instance=ExtResource( 2 )]
 position = Vector2( 480, 416 )
 
-[node name="esteira6" parent="objetos" instance=ExtResource( 7 )]
+[node name="esteira6" parent="objetos" instance=ExtResource( 2 )]
 position = Vector2( 480, 416 )
 
-[node name="esteira7" parent="objetos" instance=ExtResource( 7 )]
+[node name="esteira7" parent="objetos" instance=ExtResource( 2 )]
 position = Vector2( 544, 416 )
 
-[node name="esteira8" parent="objetos" instance=ExtResource( 7 )]
+[node name="esteira8" parent="objetos" instance=ExtResource( 2 )]
 position = Vector2( 608, 416 )
 
 [node name="elos" type="Node2D" parent="."]
 
-[node name="elo" parent="elos" instance=ExtResource( 5 )]
+[node name="elo" parent="elos" instance=ExtResource( 3 )]
 
-[node name="player" parent="." instance=ExtResource( 3 )]
+[node name="player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 224, 288 )
 __meta__ = {
 "_edit_group_": true
@@ -193,7 +193,7 @@ node_a = NodePath("..")
 [node name="Line2D" type="Line2D" parent="player"]
 z_index = -1
 default_color = Color( 1, 1, 1, 1 )
-texture = ExtResource( 6 )
+texture = ExtResource( 9 )
 texture_mode = 1
 joint_mode = 2
 begin_cap_mode = 2
@@ -204,14 +204,14 @@ antialiased = true
 position = Vector2( 224, 160 )
 linear_damp = 7.0
 angular_damp = 5.0
-script = ExtResource( 4 )
+script = ExtResource( 5 )
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Sprite" type="Sprite" parent="corasaun"]
 modulate = Color( 1, 0, 0, 1 )
-texture = ExtResource( 2 )
+texture = ExtResource( 8 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="corasaun"]
 shape = SubResource( 13 )
@@ -224,8 +224,8 @@ shape = SubResource( 13 )
 shape = SubResource( 23 )
 
 [node name="Joints" type="Node2D" parent="."]
-script = ExtResource( 1 )
+script = ExtResource( 4 )
 player_path = NodePath("../player")
 source_path = NodePath("../corasaun")
 
-[node name="joint" parent="Joints" instance=ExtResource( 5 )]
+[node name="joint" parent="Joints" instance=ExtResource( 3 )]
