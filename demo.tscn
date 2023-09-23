@@ -1,9 +1,9 @@
 [gd_scene load_steps=15 format=3 uid="uid://dw2r3i8wbli2k"]
 
-[ext_resource type="PackedScene" path="res://player.tscn" id="1"]
-[ext_resource type="PackedScene" path="res://esteira.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://demo_src/player.tscn" id="1"]
+[ext_resource type="PackedScene" path="res://demo_src/moving_belt.tscn" id="2"]
 [ext_resource type="Script" path="res://src/rope.gd" id="4"]
-[ext_resource type="Script" path="res://corasaun.gd" id="5"]
+[ext_resource type="Script" path="res://demo_src/heart.gd" id="5"]
 [ext_resource type="Texture2D" uid="uid://blnmlst8jg274" path="res://sprites/esteira.png" id="6"]
 [ext_resource type="Texture2D" uid="uid://7m35lmd1cr5s" path="res://sprites/paredes.png" id="7"]
 [ext_resource type="Texture2D" uid="uid://5waun17j637d" path="res://icon.png" id="8"]

@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="dando corda"
+config/name="Giving Rope"
 run/main_scene="res://demo.tscn"
 config/features=PackedStringArray("4.1")
 config/icon="res://icon.png"
