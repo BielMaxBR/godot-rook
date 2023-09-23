@@ -8,10 +8,20 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Line2D",
+"class": "Rope",
+"language": "GDScript",
+"path": "res://src/rope.gd"
+} ]
+_global_script_class_icons={
+"Rope": ""
+}
+
 [application]
 
 config/name="dando corda"
-run/main_scene="res://Node2D.tscn"
+run/main_scene="res://demo.tscn"
 config/icon="res://icon.png"
 
 [display]
