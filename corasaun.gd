@@ -1,5 +1,5 @@
 extends RigidBody2D
 
 
-func _integrate_forces(_state: Physics2DDirectBodyState):
+func _integrate_forces(_state: PhysicsDirectBodyState2D):
 	rotation_degrees = 0
