@@ -1,8 +1,7 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://esteira.tscn" type="PackedScene" id=2]
-[ext_resource path="res://src/joint.tscn" type="PackedScene" id=3]
 [ext_resource path="res://src/rope.gd" type="Script" id=4]
 [ext_resource path="res://corasaun.gd" type="Script" id=5]
 [ext_resource path="res://sprites/esteira.png" type="Texture" id=6]
@@ -127,9 +126,6 @@ points = PoolVector2Array( 0, 0, 64, 64, 0, 64 )
 [sub_resource type="CircleShape2D" id=13]
 radius = 30.0
 
-[sub_resource type="CircleShape2D" id=23]
-radius = 5.0
-
 [node name="Demo" type="Node2D"]
 
 [node name="tilemaps" type="Node2D" parent="."]
@@ -176,34 +172,12 @@ position = Vector2( 544, 416 )
 [node name="esteira8" parent="objetos" instance=ExtResource( 2 )]
 position = Vector2( 608, 416 )
 
-[node name="elos" type="Node2D" parent="."]
-
-[node name="elo" parent="elos" instance=ExtResource( 3 )]
-
 [node name="player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 224, 288 )
 __meta__ = {
 "_edit_group_": true
 }
 corasaun_path = NodePath("../corasaun")
-
-[node name="Rope" type="Line2D" parent="player"]
-position = Vector2( -224, -288 )
-z_index = -1
-points = PoolVector2Array( -1, 1 )
-default_color = Color( 1, 1, 1, 1 )
-texture = ExtResource( 9 )
-texture_mode = 1
-joint_mode = 2
-begin_cap_mode = 2
-end_cap_mode = 2
-antialiased = true
-script = ExtResource( 4 )
-__meta__ = {
-"_editor_description_": ""
-}
-source_path = NodePath("../../corasaun")
-target_path = NodePath("..")
 
 [node name="corasaun" type="RigidBody2D" parent="."]
 position = Vector2( 224, 160 )
@@ -221,9 +195,19 @@ texture = ExtResource( 8 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="corasaun"]
 shape = SubResource( 13 )
 
-[node name="Elo" type="RigidBody2D" parent="."]
-
-[node name="Pin" type="PinJoint2D" parent="Elo"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Elo"]
-shape = SubResource( 23 )
+[node name="Rope" type="Line2D" parent="."]
+z_index = -1
+points = PoolVector2Array( -1, 1 )
+default_color = Color( 1, 1, 1, 1 )
+texture = ExtResource( 9 )
+texture_mode = 1
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
+script = ExtResource( 4 )
+__meta__ = {
+"_editor_description_": ""
+}
+source_path = NodePath("../corasaun")
+target_path = NodePath("../player")

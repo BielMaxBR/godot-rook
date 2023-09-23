@@ -89,14 +89,14 @@ func _physics_process(_delta: float) -> void:
 				continue
 			
 			if get_point_count() == i:
-				add_point(target.to_global(next.position))
+				add_point(target.to_global(next.position) - target.position)
 			else:
-				set_point_position(i, target.to_global(next.position))
+				set_point_position(i, target.to_global(next.position) - target.position)
 
 
 func generate_joints() -> void:
 	
-	for i in n_joints:
+	for i in n_joints - 1:
 		var new = joints[0].duplicate()
 		add_child(new)
 		new.mode = RigidBody2D.MODE_RIGID
@@ -107,6 +107,6 @@ func generate_joints() -> void:
 		new.get_node("Pin").node_a = new.get_path()
 		get_child(i).get_node("Pin").node_b = new.get_path()
 		
-		if i == n_joints - 1:
+		if i == n_joints - 2:
 			source.global_position = new.global_position
 			new.get_node("Pin").node_b = source.get_path()
