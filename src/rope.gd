@@ -79,8 +79,8 @@ func _physics_process(_delta: float) -> void:
 	
 	for i in joints.size():
 		var curr: RigidBody2D = joints[i]
-		var pin = curr.get_node("Pin")
-		var next
+		var pin: PinJoint2D = curr.get_node("Pin")
+		var next: RigidBody2D
 		
 		if pin.node_b:
 			next = get_node(pin.node_b)
@@ -89,9 +89,9 @@ func _physics_process(_delta: float) -> void:
 				continue
 			
 			if get_point_count() == i:
-				add_point(target.to_global(next.position) - target.position)
+				add_point(next.position)
 			else:
-				set_point_position(i, target.to_global(next.position) - target.position)
+				set_point_position(i, next.position)
 
 
 func generate_joints() -> void:
