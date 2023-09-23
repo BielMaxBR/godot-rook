@@ -1,15 +1,15 @@
-tool
+@tool
 class_name Rope
 extends Line2D
 
 const JOINT_SCN: PackedScene = preload("res://src/joint.tscn")
-export var n_joints: int = 10
-export var size = 128
+@export var n_joints: int = 10
+@export var size = 128
 
-export var source_path: NodePath setget set_source_path
+@export var source_path: NodePath: set = set_source_path
 var source: Node2D
 
-export var target_path: NodePath setget set_target_path
+@export var target_path: NodePath: set = set_target_path
 var target: Node2D
 var target_pin := PinJoint2D.new()
 
@@ -18,27 +18,22 @@ var joints: Array
 
 func set_target_path(value: NodePath) -> void:
 	target_path = value
-	update_configuration_warning()
+	update_configuration_warnings()
 
 
 func set_source_path(value: NodePath) -> void:
 	source_path = value
-	update_configuration_warning()
+	update_configuration_warnings()
 
 
-func _get_configuration_warning() -> String:
-	var warning := ""
-	var nl: bool
+func _get_configuration_warnings() -> PackedStringArray:
+	var warning := PackedStringArray()
 	
 	if source_path.is_empty():
-		warning += "- Please add a source"
-		nl = true
+		warning.append("Please add a source")
 	
 	if target_path.is_empty():
-		warning += ("\n" if nl else "") + "- Please add a target"
-	
-	if target_path.is_empty():
-		warning += ("\n" if nl else "") + "- Please add a line"
+		warning.append("Please add a target")
 	
 	return warning
 
@@ -57,13 +52,13 @@ func _ready() -> void:
 		return
 	
 	# Setup first joint
-	joints = [JOINT_SCN.instance()]
+	joints = [JOINT_SCN.instantiate()]
 	add_child(joints[0])
 	joints[0].global_position = target.global_position
 	
 	# Setup target pin
 	
-	yield(get_tree(), "idle_frame")
+	await get_tree().process_frame
 	target.add_child(target_pin)
 	target_pin.node_a = target.get_path()
 	target_pin.node_b = joints[0].get_path()
@@ -99,7 +94,7 @@ func generate_joints() -> void:
 	for i in n_joints - 1:
 		var new = joints[0].duplicate()
 		add_child(new)
-		new.mode = RigidBody2D.MODE_RIGID
+		#new.mode = RigidBody2D.MODE_RIGID
 		
 		new.position = joints[0].position
 		new.position.y += (i + 1) * -(size / n_joints)
